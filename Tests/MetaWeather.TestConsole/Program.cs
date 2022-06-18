@@ -11,9 +11,10 @@ namespace MetaWeather.TestConsole
         public static IHostBuilder CreateHostBuilder(string[] args) => Host
             .CreateDefaultBuilder(args)
             .ConfigureServices(ConfigureServices);
-        private static void ConfigureServices(HostBuilderContext arg1, IServiceCollection arg2)
-        { 
-        
+        private static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
+        {
+            services.AddHttpClient<MetaWeatherClient>(client => 
+                client.BaseAddress = new Uri(host.Configuration["source"]));
         }
 
         static async Task Main(string[] args)
@@ -21,8 +22,10 @@ namespace MetaWeather.TestConsole
             using IHost? host = Hosting;
             await host.StartAsync();
 
+            var weather = Services.GetRequiredService<MetaWeatherClient>();
+            var resp=await weather.GetWeather("POLOCK", "1c90cb6e06b6e698cc56b446a618395b");
             Console.WriteLine("Завершено");
-            Console.ReadLine();
+            Console.ReadKey();
 
             await host.StopAsync();
         }
