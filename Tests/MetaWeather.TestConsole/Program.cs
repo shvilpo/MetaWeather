@@ -1,5 +1,4 @@
-﻿using MetaWeather.Service;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace MetaWeather.TestConsole
@@ -24,7 +23,11 @@ namespace MetaWeather.TestConsole
             await host.StartAsync();
 
             var weather = Services.GetRequiredService<MetaWeatherClient>();
-            var resp=await weather.GetWeather("POLOCK", "1c90cb6e06b6e698cc56b446a618395b");
+            var resp1=await weather.GetWeatherByName("POLOCK", "1c90cb6e06b6e698cc56b446a618395b");
+            var resp2 = await weather.GetWeatherByCoords((55.74, 37.67), "1c90cb6e06b6e698cc56b446a618395b");
+
+            Console.WriteLine(resp1);
+            Console.WriteLine(resp2);
             Console.WriteLine("Завершено");
             Console.ReadKey();
 

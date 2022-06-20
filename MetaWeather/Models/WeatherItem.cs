@@ -32,7 +32,12 @@ namespace MetaWeather.Models
 
         [JsonPropertyName("cod")]
         public int Cod { get; set; }
-
+        
+        public override string ToString()
+        {
+            return $"{Name}({Timezone}:{Coord.lat}:{Coord.lon}: {Weather[0].main}({Weather[0].description}), temp:{Main.temp})";
+        }
     }
+
 
 }

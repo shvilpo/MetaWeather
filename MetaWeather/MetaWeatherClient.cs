@@ -1,4 +1,5 @@
 ﻿using MetaWeather.Models;
+using MetaWeather.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace MetaWeather.Service
+namespace MetaWeather
 {
     public class MetaWeatherClient
     {
@@ -24,14 +25,19 @@ namespace MetaWeather.Service
             }
         };
 
-        public async Task<WeatherItem> GetWeather(string loc_name, string appid, CancellationToken Cancel = default)
+        public async Task<WeatherItem> GetWeatherByName(string loc_name, string appid, CancellationToken Cancel = default)
         {
             var req = $"weather?q={loc_name}&lang=ru&units=metric&appid={appid}";
             //var response = await _Client.GetAsync(req);
             return await _Client.GetFromJsonAsync<WeatherItem>(req, __JsonOptions, Cancel)
                 .ConfigureAwait(false);
         }
-
+        public async Task<WeatherItem> GetWeatherByCoords((double lat, double lon) coord, string appid, CancellationToken Cancel = default)
+        {
+            var req = $"weather?lat={coord.lat}&lon={coord.lon}&lang=ru&units=metric&appid={appid}";
+            return await _Client.GetFromJsonAsync<WeatherItem>(req, __JsonOptions, Cancel)
+                .ConfigureAwait(false);
+        }
     }
 
 }

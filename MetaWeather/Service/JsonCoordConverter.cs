@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace MetaWeather
+namespace MetaWeather.Service
 {
     internal class JsonCoordConverter : JsonConverter<(double Lat, double Lon)>
     {
