@@ -13,7 +13,7 @@ namespace MetaWeather.TestConsole
             .ConfigureServices(ConfigureServices);
         private static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
-            services.AddHttpClient<MetaWeatherClient>(client => 
+            services.AddHttpClient<WorldWeatherClient>(client => 
                 client.BaseAddress = new Uri(host.Configuration["source"]));
         }
 
@@ -22,12 +22,10 @@ namespace MetaWeather.TestConsole
             using IHost? host = Hosting;
             await host.StartAsync();
 
-            var weather = Services.GetRequiredService<MetaWeatherClient>();
-            var resp1=await weather.GetWeatherByName("POLOCK", "1c90cb6e06b6e698cc56b446a618395b");
-            var resp2 = await weather.GetWeatherByCoords((55.74, 37.67), "1c90cb6e06b6e698cc56b446a618395b");
+            var weather = Services.GetRequiredService<WorldWeatherClient>();
+            var resp1=await weather.GetWeatherByNameDate("Москва", new DateTime(2022,6,20), "1b0960d943584b59a6e65137222106");
 
             Console.WriteLine(resp1);
-            Console.WriteLine(resp2);
             Console.WriteLine("Завершено");
             Console.ReadKey();
 
