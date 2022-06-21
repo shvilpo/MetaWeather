@@ -26,7 +26,7 @@ namespace MetaWeather
         }
         public async Task<WorldWeatherItem> GetWeatherByNameDate(string loc_name, DateTime dt, string key, CancellationToken Cancel = default)
         {
-            string stDt = $"{dt.Year:d4}-{dt.Month:d2}-{dt.Day:d2}";
+            string stDt = $"{dt:yyyy}-{dt:MM}-{dt:dd}";
             var req = $"weather.ashx?q={loc_name}&date_format=iso8601&date={stDt}&format=json&lang=ru&cc=no&key={key}";
             return await _Client.GetFromJsonAsync<WorldWeatherItem>(req, __JsonOptions, Cancel)
                 .ConfigureAwait(false);
